@@ -45,15 +45,14 @@ class ADCData:
         dimensions for each frame: (Chirp, Channel, Sample)
         return ndarray with shape (-1, self.numChirpsPerFrame, self.numRxChan, self.numAdcSamples)
         """
-        bin_file = [bin_file + '/' + f for f in os.listdir(bin_file)]
-        if len(bin_file) == 1:
-            x = np.fromfile(bin_file, dtype = np.int16).astype('float')
-        else:
-            # mutiple files
-            x = []
-            for bin in bin_file:
-                x.append(np.fromfile(bin, dtype = np.int16).astype('float'))
-            x = np.concatenate(x)
+        bin_files = os.listdir(bin_file)
+        bin_files = [f for f in bin_files if f.endswith('.bin')]
+        bin_files = [bin_file + '/' + f for f in bin_files]
+        x = []
+        for bin in bin_files:
+            x.append(np.fromfile(bin, dtype = np.int16).astype('float'))
+        x = np.concatenate(x)
+        
         # always complex data
         x = ti_dca1000_real2complex(x)
         # return format: (frame, chirp, Tx, Rx, sample)

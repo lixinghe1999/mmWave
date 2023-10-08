@@ -5,13 +5,6 @@ import matplotlib.pyplot as plt
 from digital_signal_process import DSP
 from scipy.signal import stft, correlate, find_peaks, butter, filtfilt
 
-def plot_spectrum(x, y):
-    plt.plot(x, y)
-    plt.title('Frequency Spectrum')
-    plt.xlabel('distance (m)')
-    plt.ylabel('magnitude')
-#%%
-
 def comp_win_func(chirp,d):
     x = chirp
     wins = ['boxcar', 'hamming', 'hann', 'blackman', 'blackmanharris', 'bartlett']
@@ -85,9 +78,6 @@ def analyze(config_path, data_path, enable_save = True,):
     else:
         chirp = np.load('cache_chirp.npy')
 
-    # for display simulation range bin, use the following line    
-    # chirp = np.load('/home/v-liangyuliu/acousticRT/RxSignals.npy').reshape(1, -1)
-
     pad_len = 1000
     new_chirp = np.zeros((chirp.shape[0],pad_len),dtype=np.float64)
     for i in range(chirp.shape[0]):
@@ -99,14 +89,11 @@ def analyze(config_path, data_path, enable_save = True,):
     d = dsp.cfg.freq2dist(f)
 
     comp_win_func(new_chirp,d)
-    comp_avg(new_chirp,d)
-    tot_comp(new_chirp,d)
-    # showRangeBin(new_chirp, d, 0)
-
-
+    #comp_avg(new_chirp,d)
+    #tot_comp(new_chirp,d)
 
 if __name__ == '__main__':
     cfg_path = 'awr1843_cfg.xml'
-    bin_path = "data"
-    enable_save = False
+    bin_path = "data/previous"
+    enable_save = True
     analyze(cfg_path, bin_path, enable_save)

@@ -1,2 +1,1 @@
-# mmWave-radar-vital-sign
-TI IWR6843 60GHz
+This is the work on MSRA Shanghai, please see my stars directory: mmWave about the related repos.
